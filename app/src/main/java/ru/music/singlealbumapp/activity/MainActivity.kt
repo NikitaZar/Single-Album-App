@@ -7,6 +7,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import ru.music.singlealbumapp.R
+import ru.music.singlealbumapp.adapter.MediaAdapter
+import ru.music.singlealbumapp.adapter.OnInteractionListener
 import ru.music.singlealbumapp.databinding.ActivityMainBinding
 import ru.music.singlealbumapp.media.MediaLifecycleObserver
 import ru.music.singlealbumapp.viewModel.MediaViewModel
@@ -35,5 +37,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 genre.text = album.genre
             }
         }
+
+        val adapter = MediaAdapter(object : OnInteractionListener {
+            override fun onPlay() {
+                TODO("Not yet implemented")
+            }
+        })
+
+        binding.list.adapter = adapter
     }
 }
