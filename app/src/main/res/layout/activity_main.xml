@@ -73,7 +73,8 @@
         android:id="@+id/bt_play_album"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_play_arrow_24" />
+        android:src="@drawable/ic_baseline_play_arrow_24"
+        android:layout_marginBottom="@dimen/space4x"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
