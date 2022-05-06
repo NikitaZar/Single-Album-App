@@ -2,7 +2,6 @@ package ru.music.singlealbumapp.repository
 
 import ru.music.singlealbumapp.dto.*
 
-interface TrackRepository {
+interface Repository {
     suspend fun getAlbum(): Album
-    suspend fun getTrack(): Track
 }

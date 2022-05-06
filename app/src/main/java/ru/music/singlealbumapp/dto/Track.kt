@@ -1,4 +1,6 @@
 package ru.music.singlealbumapp.dto
 
-class Track {
-}
+data class Track(
+    val id: Long,
+    val file: String,
+)
