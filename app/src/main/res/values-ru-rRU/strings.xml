@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Single Album App</string>
+    <string name="album">Альбом</string>
+    <string name="album_title">Заголовок альбома</string>
+    <string name="artist">Артист:</string>
+    <string name="artist_name">Имя артиста</string>
+</resources>

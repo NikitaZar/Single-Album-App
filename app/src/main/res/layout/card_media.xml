@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingVertical="@dimen/space2x">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bt_play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_play_arrow_24" />
+
+    <TextView
+        android:id="@+id/track_name"
+        android:layout_width="@dimen/space_track_artist"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="@dimen/space2x"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Track name"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/artist_name"
+        android:layout_width="@dimen/space_track_artist"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="@dimen/space2x"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Artist name" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="0dp"
+        android:gravity="end"
+        android:text="04:55" />
+
+
+</LinearLayout>
