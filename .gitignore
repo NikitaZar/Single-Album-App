@@ -1,5 +1,3 @@
-Thumbs.db*
-.DS_Store*
 HELP.md
 .gradle
 build/
@@ -20,6 +18,12 @@ build/
 *.ipr
 out/
 
+### Android Studio ###
+local.properties
+captures/
+.externalNativeBuild
+.cxx
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -39,8 +43,5 @@ out/
 *.tar.gz
 *.rar
 
-###
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**
-!**/src/test/**
-/app/google-services.json
+### Gradle ###
+!/gradle/wrapper/gradle-wrapper.jar
