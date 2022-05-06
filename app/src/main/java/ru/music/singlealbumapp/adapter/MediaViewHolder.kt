@@ -11,7 +11,10 @@ class MediaViewHolder(
 
     fun bind(media: Media) {
         binding.apply {
+            trackName.text = media.id.toString()
+            artistName.text = media.file
 
+            btPlay.setOnClickListener {}
         }
     }
 }

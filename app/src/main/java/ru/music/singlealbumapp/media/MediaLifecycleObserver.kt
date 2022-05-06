@@ -14,6 +14,26 @@ class MediaLifecycleObserver : LifecycleEventObserver {
         }
         player?.prepareAsync()
     }
+
+    fun pause() {
+        player?.setOnPreparedListener {
+            it.pause()
+        }
+        player?.prepareAsync()
+    }
+
+    fun stop() {
+        player?.setOnPreparedListener {
+            it.stop()
+        }
+        player?.prepareAsync()
+    }
+
+    fun setDataSource(url: String) {
+        player?.reset()
+        player?.setDataSource(url)
+    }
+
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         when (event) {
             Lifecycle.Event.ON_PAUSE -> player?.pause()

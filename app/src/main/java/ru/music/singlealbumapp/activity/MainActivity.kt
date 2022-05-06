@@ -28,22 +28,25 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.album.observe(this) { album ->
-            binding.apply {
-                Log.i("Album", album.toString())
-                albumTitle.text = album.title
-                artistName.text = album.artist
-                published.text = album.published
-                genre.text = album.genre
-            }
-        }
-
         val adapter = MediaAdapter(object : OnInteractionListener {
             override fun onPlay() {
                 TODO("Not yet implemented")
             }
         })
-
         binding.list.adapter = adapter
+
+        viewModel.album.observe(this) { album ->
+            binding.apply {
+                albumTitle.text = album.title
+                artistName.text = album.artist
+                published.text = album.published
+                genre.text = album.genre
+            }
+            adapter.submitList(album.tracks)
+            Log.i("Album", album.tracks.toString())
+        }
+
+        val mediaObserver = MediaLifecycleObserver()
+        lifecycle.addObserver(mediaObserver)
     }
 }
