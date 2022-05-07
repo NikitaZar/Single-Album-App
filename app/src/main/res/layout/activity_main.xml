@@ -80,6 +80,7 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/card_media" />
 
 </LinearLayout>

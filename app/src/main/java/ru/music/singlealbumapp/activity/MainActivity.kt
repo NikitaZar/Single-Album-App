@@ -30,10 +30,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         val adapter = MediaAdapter(object : OnInteractionListener {
             override fun onPlay() {
-                TODO("Not yet implemented")
+                //TODO("Not yet implemented")
             }
         })
         binding.list.adapter = adapter
+
+        binding.btPlayAlbum.setOnClickListener {
+            //TODO("Not yet implemented")
+        }
 
         viewModel.album.observe(this) { album ->
             binding.apply {
@@ -41,12 +45,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 artistName.text = album.artist
                 published.text = album.published
                 genre.text = album.genre
+                adapter.submitList(album.tracks)
+                Log.i("Album", album.tracks.toString())
             }
-            adapter.submitList(album.tracks)
-            Log.i("Album", album.tracks.toString())
         }
 
-        val mediaObserver = MediaLifecycleObserver()
         lifecycle.addObserver(mediaObserver)
     }
 }
