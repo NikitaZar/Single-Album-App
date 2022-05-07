@@ -1,5 +1,6 @@
 package ru.music.singlealbumapp.adapter
 
 interface OnInteractionListener {
-    fun onPlay()
+    fun onPlay(id: Long)
+    fun onPause(id: Long)
 }
