@@ -4,9 +4,11 @@ import android.media.MediaPlayer
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 
 class MediaLifecycleObserver : LifecycleEventObserver {
     private var player: MediaPlayer? = MediaPlayer()
+    val position = MutableLiveData<Int>(player?.currentPosition)
 
     fun play() {
         player?.setOnPreparedListener {

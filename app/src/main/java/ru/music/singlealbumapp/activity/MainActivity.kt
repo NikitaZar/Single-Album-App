@@ -1,5 +1,6 @@
 package ru.music.singlealbumapp.activity
 
+import android.media.MediaMetadataRetriever
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,8 @@ import ru.music.singlealbumapp.dto.Media
 import ru.music.singlealbumapp.dto.MediaState
 import ru.music.singlealbumapp.media.MediaLifecycleObserver
 import ru.music.singlealbumapp.viewModel.MediaViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -57,11 +60,20 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
                 album.tracks.forEach { media ->
                     val url = "${BuildConfig.BASE_URL}/${media.file}"
+                    val metaData =
+                        MediaMetadataRetriever().apply { setDataSource(url) }
                     when (media.mediaState) {
                         MediaState.PAUSE -> {
                             mediaObserver.setDataSource(url)
                             mediaObserver.pause()
-                            Log.i("Album", media.mediaState.toString())
+                            media.artist =
+                                metaData.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
+                                    .toString()
+                            val duration =
+                                metaData.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+                                    ?.toInt()
+                            val formatter = SimpleDateFormat("mm:ss", Locale.US)
+                            media.duration = formatter.format(duration)
                         }
                         else -> Unit
                     }
@@ -78,6 +90,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     }
                 }
             }
+        }
+
+        mediaObserver.position.observe(this) {
+            Log.i("Album", it.toString())
         }
 
         lifecycle.addObserver(mediaObserver)

@@ -19,7 +19,7 @@
             app:fabSize="mini" />
 
         <TextView
-            android:id="@+id/track_name"
+            android:id="@+id/title"
             android:layout_width="@dimen/space_track_artist"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -30,7 +30,7 @@
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/artist_name"
+            android:id="@+id/artist"
             android:layout_width="@dimen/space_track_artist"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -40,7 +40,7 @@
             android:text="Artist name" />
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/duration"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -53,6 +53,7 @@
         android:id="@+id/progress"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
+        android:visibility="invisible"
         android:layout_height="wrap_content" />
 
 </LinearLayout>
