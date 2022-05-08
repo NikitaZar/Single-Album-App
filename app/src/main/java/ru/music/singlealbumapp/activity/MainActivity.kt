@@ -47,12 +47,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 binding.btPlayAlbum.setImageDrawable(
                     applicationContext.getDrawable(
                         when (media.mediaState) {
-                            MediaState.PAUSE -> {
-                                R.drawable.ic_baseline_play_arrow_24
-                            }
-                            MediaState.PLAY -> {
-                                R.drawable.ic_baseline_pause_24
-                            }
+                            MediaState.PAUSE -> R.drawable.ic_baseline_play_arrow_24
+                            MediaState.PLAY -> R.drawable.ic_baseline_pause_24
                         }
                     )
                 )

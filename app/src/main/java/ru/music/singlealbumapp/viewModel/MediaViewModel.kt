@@ -18,6 +18,7 @@ import ru.music.singlealbumapp.repository.Repository
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.function.IntToLongFunction
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,9 +30,9 @@ class MediaViewModel @Inject constructor(
     val album: LiveData<Album>
         get() = _album
 
-    private val lastPlaying = MutableLiveData<Media>()
+    private val lastPlayed = MutableLiveData<Media>()
     val playing: LiveData<Media>
-        get() = lastPlaying
+        get() = lastPlayed
 
     init {
         loadAlbum()
@@ -73,26 +74,26 @@ class MediaViewModel @Inject constructor(
 
     fun play(media: Media) {
         val url = "${BuildConfig.BASE_URL}/${media.file}"
+        mediaObserver.setDataSource(url)
         mediaObserver.apply {
-            setDataSource(url)
             play()
             changeState(media, MediaState.PLAY)
-            lastPlaying.postValue(media)
         }
+        lastPlayed.postValue(media)
     }
 
     fun pause(media: Media) {
         val url = "${BuildConfig.BASE_URL}/${media.file}"
+        mediaObserver.setDataSource(url)
         mediaObserver.apply {
-            setDataSource(url)
             pause()
             changeState(media, MediaState.PAUSE)
         }
-        lastPlaying.postValue(media)
+        lastPlayed.postValue(media)
     }
 
     fun playAll() {
-        lastPlaying.value?.let {
+        lastPlayed.value?.let {
             when (it.mediaState) {
                 MediaState.PAUSE -> {
                     play(it)
