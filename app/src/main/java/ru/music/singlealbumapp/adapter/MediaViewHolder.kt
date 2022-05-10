@@ -36,7 +36,12 @@ class MediaViewHolder(
                             R.drawable.ic_baseline_play_arrow_24
                         }
                         MediaState.PLAY -> {
-                            duration.text = formatter.format(media.position)
+                            val durationTemp = when (media.isNegativePositionShow) {
+                                false -> media.position
+                                true -> media.duration - media.position
+                            }
+                            duration.text = formatter.format(durationTemp)
+
                             progress.isVisible = true
                             R.drawable.ic_baseline_pause_24
                         }
@@ -60,6 +65,15 @@ class MediaViewHolder(
                         }
                     )
                 )
+            }
+
+            duration.setOnClickListener {
+                media.isNegativePositionShow = !media.isNegativePositionShow
+                val durationTemp = when (media.isNegativePositionShow) {
+                    false -> media.position
+                    true -> media.duration - media.position
+                }
+                duration.text = formatter.format(durationTemp)
             }
         }
     }

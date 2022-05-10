@@ -6,7 +6,8 @@ data class Media(
     var mediaState: MediaState = MediaState.PAUSE,
     var artist: String,
     var duration: Int,
-    var position: Int
+    var position: Int,
+    var isNegativePositionShow: Boolean = false
 )
 
 enum class MediaState {

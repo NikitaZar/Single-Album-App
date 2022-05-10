@@ -54,7 +54,6 @@ class MediaViewModel @Inject constructor(
             .toString()
         media.duration = metaData.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
             ?.toInt() ?: 0
-//        SimpleDateFormat("mm:ss", Locale.US).also { media.duration = it.format(duration) }
     }
 
     private fun loadAlbum() = viewModelScope.launch(Dispatchers.IO) {
@@ -77,26 +76,33 @@ class MediaViewModel @Inject constructor(
 
     fun play(media: Media) {
         val url = "${BuildConfig.BASE_URL}/${media.file}"
-        mediaObserver.setDataSource(url)
+        Log.i("Album", url)
         mediaObserver.apply {
+            setDataSource(url)
             play()
             changeState(media, MediaState.PLAY)
         }
+        lastPlayed.value?.mediaState = MediaState.PAUSE
         lastPlayed.postValue(media)
 
         progressJob?.cancel()
         progressJob = viewModelScope.launch {
-            mediaObserver.getPosition().collectLatest {
-                lastPlayed.postValue(media.copy(position = it))
-                media.position = it
-            }
+            mediaObserver.getPosition()
+                .collectLatest { position ->
+                    media.position = position
+                    lastPlayed.postValue(media)
+                }
+        }
+        mediaObserver.onFinishListener {
+            Log.i("Album", "done") //TODO issue
+//            playNext(media)
         }
     }
 
     fun pause(media: Media) {
         val url = "${BuildConfig.BASE_URL}/${media.file}"
-        mediaObserver.setDataSource(url)
         mediaObserver.apply {
+            setDataSource(url)
             pause()
             changeState(media, MediaState.PAUSE)
         }
@@ -120,4 +126,13 @@ class MediaViewModel @Inject constructor(
         }
     }
 
+    private fun playNext(media: Media) {
+        val nextMedia = _album.value?.tracks?.first { it.id == media.id + 1 }
+            ?: _album.value?.tracks?.first()
+        media.mediaState = MediaState.PAUSE
+        nextMedia?.let {
+            Log.i("Album", "playNext =  $it")
+            play(it)
+        }
+    }
 }
