@@ -5,4 +5,5 @@
     <string name="album_title">Заголовок альбома</string>
     <string name="artist">Артист:</string>
     <string name="artist_name">Имя артиста</string>
+    <string name="something_went_wrong">Что-то пошло не так...</string>
 </resources>

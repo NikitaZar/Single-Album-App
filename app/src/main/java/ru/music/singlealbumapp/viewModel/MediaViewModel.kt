@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.music.singlealbumapp.BuildConfig
 import ru.music.singlealbumapp.dto.Album
+import ru.music.singlealbumapp.dto.AlbumState
 import ru.music.singlealbumapp.dto.Media
 import ru.music.singlealbumapp.dto.MediaState
 import ru.music.singlealbumapp.media.MediaLifecycleObserver
@@ -37,6 +38,17 @@ class MediaViewModel @Inject constructor(
 
     private var progressJob: Job? = null
 
+    private val emptyAlbum = Album(
+        AlbumState.LOADING,
+        0,
+        "",
+        "",
+        "",
+        "",
+        "",
+        emptyList()
+    )
+
     init {
         loadAlbum()
     }
@@ -58,13 +70,15 @@ class MediaViewModel @Inject constructor(
 
     private fun loadAlbum() = viewModelScope.launch(Dispatchers.IO) {
         try {
+            _album.postValue(emptyAlbum)
             val album =
-                repository.getAlbum().apply { tracks.map { it.mediaState = MediaState.PAUSE } }
+                repository.getAlbum().apply {
+                    tracks.map { it.mediaState = MediaState.PAUSE }
+                }
             album.tracks.forEach { setMediaProperties(it) }
-            _album.postValue(album)
+            _album.postValue(album.copy(state = AlbumState.LOADED))
         } catch (e: IOException) {
-            //TODO
-            Log.i("Album", "Error loading")
+            _album.postValue(emptyAlbum.copy(state = AlbumState.ERROR))
         }
     }
 

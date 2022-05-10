@@ -5,4 +5,5 @@
     <string name="artist">Artist:</string>
     <string name="artist_name">Artist_name</string>
     <string name="genre_delimiter" translatable="false">\u2219</string>
+    <string name="something_went_wrong">Something went wrong...</string>
 </resources>

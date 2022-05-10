@@ -1,6 +1,7 @@
 package ru.music.singlealbumapp.dto
 
 data class Album(
+    var state: AlbumState,
     val id: Long,
     val title: String,
     val subtitle: String,

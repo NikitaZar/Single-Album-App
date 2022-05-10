@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import dagger.hilt.android.AndroidEntryPoint
 import ru.music.singlealbumapp.R
 import ru.music.singlealbumapp.adapter.MediaAdapter
 import ru.music.singlealbumapp.adapter.OnInteractionListener
 import ru.music.singlealbumapp.databinding.ActivityMainBinding
+import ru.music.singlealbumapp.dto.AlbumState
 import ru.music.singlealbumapp.dto.Media
 import ru.music.singlealbumapp.dto.MediaState
 import ru.music.singlealbumapp.viewModel.MediaViewModel
@@ -58,10 +60,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         viewModel.album.observe(this) { album ->
             binding.apply {
+                Log.i("state", "${album.state}")
                 albumTitle.text = album.title
                 artistName.text = album.artist
                 published.text = album.published
                 genre.text = album.genre
+                loading.isVisible = album.state == AlbumState.LOADING
+                errorText.isVisible = album.state == AlbumState.ERROR
                 adapter.submitList(album.tracks)
             }
         }

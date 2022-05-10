@@ -33,7 +33,7 @@ class MediaLifecycleObserver {
     fun play() {
         player?.setOnPreparedListener {
             it.start()
-            it.seekTo(it.duration - 15000) //TODO test
+//            it.seekTo(it.duration - 15000) //TODO test
         }
         player?.prepareAsync()
     }
