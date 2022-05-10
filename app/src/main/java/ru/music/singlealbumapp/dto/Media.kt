@@ -5,7 +5,7 @@ data class Media(
     val file: String,
     var mediaState: MediaState = MediaState.PAUSE,
     var artist: String,
-    var duration: String,
+    var duration: Int,
     var position: Int
 )
 

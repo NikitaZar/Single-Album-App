@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.music.singlealbumapp.BuildConfig
 import ru.music.singlealbumapp.dto.Album
@@ -18,7 +20,6 @@ import ru.music.singlealbumapp.repository.Repository
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.function.IntToLongFunction
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,6 +34,8 @@ class MediaViewModel @Inject constructor(
     private val lastPlayed = MutableLiveData<Media>()
     val playing: LiveData<Media>
         get() = lastPlayed
+
+    private var progressJob: Job? = null
 
     init {
         loadAlbum()
@@ -49,9 +52,9 @@ class MediaViewModel @Inject constructor(
             MediaMetadataRetriever().apply { setDataSource(url) }
         media.artist = metaData.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
             .toString()
-        val duration = metaData.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-            ?.toInt()
-        SimpleDateFormat("mm:ss", Locale.US).also { media.duration = it.format(duration) }
+        media.duration = metaData.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+            ?.toInt() ?: 0
+//        SimpleDateFormat("mm:ss", Locale.US).also { media.duration = it.format(duration) }
     }
 
     private fun loadAlbum() = viewModelScope.launch(Dispatchers.IO) {
@@ -80,6 +83,14 @@ class MediaViewModel @Inject constructor(
             changeState(media, MediaState.PLAY)
         }
         lastPlayed.postValue(media)
+
+        progressJob?.cancel()
+        progressJob = viewModelScope.launch {
+            mediaObserver.getPosition().collectLatest {
+                lastPlayed.postValue(media.copy(position = it))
+                media.position = it
+            }
+        }
     }
 
     fun pause(media: Media) {

@@ -8,6 +8,8 @@ import ru.music.singlealbumapp.R
 import ru.music.singlealbumapp.databinding.CardMediaBinding
 import ru.music.singlealbumapp.dto.Media
 import ru.music.singlealbumapp.dto.MediaState
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MediaViewHolder(
     private val binding: CardMediaBinding,
@@ -20,16 +22,21 @@ class MediaViewHolder(
         binding.apply {
             artist.text = media.artist
             title.text = media.file
-            duration.text = media.duration
+            progress.progress = media.position
+            progress.max = media.duration
+
+            val formatter = SimpleDateFormat("mm:ss", Locale.US)
 
             btPlay.setImageDrawable(
                 binding.root.context.getDrawable(
                     when (media.mediaState) {
                         MediaState.PAUSE -> {
+                            duration.text = formatter.format(media.duration)
                             progress.isVisible = false
                             R.drawable.ic_baseline_play_arrow_24
                         }
                         MediaState.PLAY -> {
+                            duration.text = formatter.format(media.position)
                             progress.isVisible = true
                             R.drawable.ic_baseline_pause_24
                         }

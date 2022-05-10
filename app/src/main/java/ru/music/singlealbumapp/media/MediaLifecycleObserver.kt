@@ -1,20 +1,24 @@
 package ru.music.singlealbumapp.media
 
 import android.media.MediaPlayer
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlin.properties.Delegates
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.flow
 
 class MediaLifecycleObserver {
     private var player: MediaPlayer? = MediaPlayer()
 
-    fun position() = player?.currentPosition ?: 0
+    fun getPosition() = flow {
+        val context = currentCoroutineContext()
+        player?.setOnCompletionListener {
+            context.cancel()
+        }
+
+        while (context.isActive) {
+            val currentPosition = player?.currentPosition ?: 0
+            emit(currentPosition)
+            delay(timeMillis = 500)
+        }
+    }
 
     fun play() {
         player?.setOnPreparedListener {
@@ -47,3 +51,5 @@ class MediaLifecycleObserver {
         player = null
     }
 }
+
+
