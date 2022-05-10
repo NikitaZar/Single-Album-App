@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="@dimen/space2x">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/bt_play"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_play_arrow_24"
+            app:fabSize="mini" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="@dimen/space_track_artist"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/space2x"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Track name"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/artist"
+            android:layout_width="@dimen/space_track_artist"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/space2x"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Artist name" />
+
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="0dp"
+            android:gravity="end"
+            android:text="04:55" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
